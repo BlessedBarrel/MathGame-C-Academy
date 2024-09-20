@@ -1,0 +1,23 @@
+public class Enums
+{
+
+public enum EOptions
+{
+    Addiion = 0,
+    Subtraction ,
+    Multiplication,
+    Division,
+    Difficulty,
+    Back
+    
+}
+public static enum EDiffuculty
+{
+    Easy =0,
+
+    Medium,
+
+    Hard,
+}
+
+}
