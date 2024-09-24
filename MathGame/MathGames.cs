@@ -1,94 +1,124 @@
 
 
 
-public class Games
+public static class Games
 {
-    public int Addition()
+    
+    static int difficultyLevel = 100;
+    private static bool Answer(int fn, int sn, int _answer, string symbol)
+    {
+        int anss = 0;
+
+        RecordKeep.RecordData( fn.ToString() , sn.ToString() ,_answer.ToString(), symbol);
+        
+        string ans = Console.ReadLine();
+        
+        bool isParsed = false;
+        while(isParsed == false)
+        {
+            isParsed = int.TryParse(ans, out anss);
+            if(isParsed == false) 
+            {
+                Console.WriteLine("Enter Valid Answer");
+                ans = Console.ReadLine();
+            }
+        }
+
+        if(anss == _answer)
+        {
+            return true;
+        }
+        
+        return false;
+
+    }
+    public static bool Addition()
     {
         Random random = new Random();
-        int maxLimit = ProblemDifficulty();
+        int maxLimit = difficultyLevel;
         
-        int firstNumber = random.Next(1-maxLimit);
-        int secondNumber = random.Next(1-maxLimit);
+        int firstNumber = random.Next(1,maxLimit);
+        int secondNumber = random.Next(1,maxLimit);
         
         int answer = firstNumber + secondNumber;
-
         Console.WriteLine(firstNumber + " + " + secondNumber);
-        return answer;
+        
+        bool isPass = Answer(firstNumber, secondNumber, answer, new string("+"));
+
+        return isPass;
     }
 
-    public int Subtraction()
+    public static bool Subtraction()
     {
         Random random = new Random();
-        int maxLimit = ProblemDifficulty();
+        int maxLimit = difficultyLevel;
         
-        int firstNumber = random.Next(1-maxLimit);
-        int secondNumber = random.Next(1-maxLimit);
+        int firstNumber = random.Next(1,maxLimit);
+        int secondNumber = random.Next(1,maxLimit);
         
         int answer = firstNumber - secondNumber;
 
         Console.WriteLine(firstNumber + " - " + secondNumber);
-        return answer;
+
+        bool isPass = Answer(firstNumber, secondNumber, answer, new string("-"));
+
+        return isPass;
     }
 
-    public int Multiplication()
+    public static bool Multiplication()
     {
         Random random = new Random();
-        int maxLimit = ProblemDifficulty();
+        int maxLimit = difficultyLevel;
         
-        int firstNumber = random.Next(1-maxLimit);
-        int secondNumber = random.Next(1-maxLimit);
+        int firstNumber = random.Next(1,maxLimit);
+        int secondNumber = random.Next(1,maxLimit);
         
         int answer = firstNumber * secondNumber;
 
         Console.WriteLine(firstNumber + " * " + secondNumber);
-        return answer;
+        bool isPass = Answer(firstNumber, secondNumber, answer, new string("*"));
+
+        return isPass;
     }
 
-    public int Division()
+    public static bool Division()
     {
         Random random = new Random();
-        int maxLimit = ProblemDifficulty();
-        int answer;
+        int maxLimit = difficultyLevel;
+        float IntAnswer;
         int firstNumber;
         int secondNumber;
         do
         {
-            firstNumber = random.Next(1-maxLimit);
-            secondNumber = random.Next(1-maxLimit);
+            firstNumber = random.Next(1,maxLimit);
+            secondNumber = random.Next(1,maxLimit);
         
-            answer = firstNumber/secondNumber; //5/2 -- 2.5
+            IntAnswer = (float) firstNumber/secondNumber; //now this will do floating point division.
         }
-        while (answer * 10 % 10 == 0);
+         while ( MathF.Floor(IntAnswer) != IntAnswer);
+        // while ( IntAnswer * 10 % 10 != 0);
 
-        Console.WriteLine(firstNumber + " * " + secondNumber);
-        return answer;
+        Console.WriteLine(firstNumber + " / " + secondNumber);
+        bool isPass = Answer(firstNumber, secondNumber, firstNumber/secondNumber, new string("/"));
+
+        return isPass;
     }
 
-    private int GetDifficulty()
+    public static void  ProblemDifficulty(EDiffuculty diff)
     {
-        throw new NotImplementedException();
-    }
-    private int ProblemDifficulty()
-    {
-        int difficulty = GetDifficulty();
-        int factor;
-        
-        switch (difficulty)
+        switch (diff)
         {
-            case 1:
-                factor = 100;
+            case EDiffuculty.Easy :
+                difficultyLevel = 100;
                 break;
-            case 2:
-                factor = 1000;  
+            case EDiffuculty.Medium:
+                difficultyLevel = 1000;  
                 break;
-            case 3:
-                factor = 1000;  
+            case EDiffuculty.Hard:
+                difficultyLevel = 1000;  
                 break;
             default:
             throw new ArgumentException("Invalid difficulty level.");
         }
-
-        return factor;
     }
 }
